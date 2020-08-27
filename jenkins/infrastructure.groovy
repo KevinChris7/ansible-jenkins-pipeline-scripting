@@ -11,12 +11,12 @@ pipelineJob(JOB_NAME){
         daysToKeep(30)
         numToKeep(10)
     }
-    parameters {
-        stringParameter('CJK_GIT_URL',CJK_GIT_URL)
-        stringParameter('BRANCH', BRANCH_NAME)
-        stringParameter('TERRAFORM_VERSION', TERRAFORM_VERSION)
-        chocieParameter('OPERATION', ['apply','destroy'])
-        stringParameter('BUCKET', BUCKET_NAME)
+    parameters{
+        stringParam('CJK_GIT_URL',CJK_GIT_URL)
+        stringParam('BRANCH', BRANCH_NAME)
+        stringParam('TERRAFORM_VERSION', TERRAFORM_VERSION)
+        chocieParam('OPERATION', ['apply','destroy'])
+        stringParam('BUCKET', BUCKET_NAME)
     }
     definition{
         cpsScm{
