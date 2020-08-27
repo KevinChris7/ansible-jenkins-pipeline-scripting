@@ -4,6 +4,7 @@ CJK_GIT_URL = 'https://github.com/KevinChris7/Terraform-AWS-2Tier-WebApplication
 BRANCH_NAME = 'master'
 TERRAFORM_VERSION = '0.13'
 BUCKET_NAME = 'my-tf-bucket'
+CREDENTIALS_ID = 'AWS keys'
 
 pipelineJob(JOB_NAME){
     displayName(DISPLAY_NM)
