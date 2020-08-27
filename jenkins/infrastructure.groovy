@@ -25,7 +25,7 @@ pipelineJob(JOB_NAME){
                 git{
                     remote{
                         credentials(CREDENTIALS_ID)
-                        url(JOB_REPO)
+                        //url(JOB_REPO)
                     }
                     branch("*/master")
                 }
