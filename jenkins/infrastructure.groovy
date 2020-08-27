@@ -5,7 +5,7 @@ JOB_REPO = 'https://github.com/KevinChris7/trial-project.git'
 BRANCH_NAME = 'master'
 TERRAFORM_VERSION = '0.13'
 BUCKET_NAME = 'my-tf-bucket'
-CREDENTIALS_ID = 'AKIA5FJKTZ4V6FWK7QXF'
+CREDENTIALS_ID = 'KevinChris7'
 
 pipelineJob(JOB_NAME){
     displayName(DISPLAY_NM)
@@ -30,7 +30,7 @@ pipelineJob(JOB_NAME){
                     }
                     branch("*/master")
                 }
-            scriptPath('jenkins-pipelines/infrastructure-build/Jenkinsfile')
+            scriptPath('trial-project/jenkins/Jenkinsfile')
             lightweight()
             }
         }
