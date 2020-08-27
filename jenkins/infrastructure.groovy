@@ -15,7 +15,7 @@ pipelineJob(JOB_NAME){
         stringParam('CJK_GIT_URL',CJK_GIT_URL)
         stringParam('BRANCH', BRANCH_NAME)
         stringParam('TERRAFORM_VERSION', TERRAFORM_VERSION)
-        chocieParam('OPERATION', ['apply','destroy'])
+        choiceParam('OPERATION', ['apply','destroy'])
         stringParam('BUCKET', BUCKET_NAME)
     }
     definition{
