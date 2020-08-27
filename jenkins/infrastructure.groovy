@@ -1,10 +1,11 @@
 JOB_NAME = 'Infrastructure'
 DISPLAY_NM = 'IAC Project'
 CJK_GIT_URL = 'https://github.com/KevinChris7/Terraform-AWS-2Tier-WebApplication.git'
+JOB_REPO = 'https://github.com/KevinChris7/trial-project.git'
 BRANCH_NAME = 'master'
 TERRAFORM_VERSION = '0.13'
 BUCKET_NAME = 'my-tf-bucket'
-CREDENTIALS_ID = 'AWS keys'
+CREDENTIALS_ID = 'AKIA5FJKTZ4V6FWK7QXF'
 
 pipelineJob(JOB_NAME){
     displayName(DISPLAY_NM)
@@ -25,7 +26,7 @@ pipelineJob(JOB_NAME){
                 git{
                     remote{
                         credentials(CREDENTIALS_ID)
-                        //url(JOB_REPO)
+                        url(JOB_REPO)
                     }
                     branch("*/master")
                 }
