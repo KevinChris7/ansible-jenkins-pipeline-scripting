@@ -1,0 +1,39 @@
+#!/usr/bin/env groovy
+
+node() {
+    def tf_dir = "${JENKINS_HOME}/project/config"
+    def work_dir = 'webapp'
+    def operation = "${OPERATION}"
+
+    stage('Git Checkout') {
+        checkout(
+            [
+                $class: 'GitSCM',
+                branches: [[name: "${BRANCH_NAME}"]],
+                userRemoteConfigs: [[url: "${CJK_GIT_URL}", credentialsId: "${CREDENTIALS_ID}"]]
+            ]
+        )
+        println("Checkout Completed Successfully")
+    }
+    stage('Download Terraform') {
+        sh ('''
+        if [ ! -d ${JENKINS_HOME}/project ];
+        then
+            echo $PWD
+            mkdir -p ${JENKINS_HOME}/project/tfs
+            
+        else
+            echo 'Directory Not Created'
+        fi
+
+        if [ ! -d ${JENKINS_HOME}/project/tfs ];
+        then
+            echo $PWD
+            mkdir -p ${JENKINS_HOME}/terraform/config
+        else
+            echo 'Dir not created'
+        fi
+
+        ''')
+    }
+}
