@@ -15,7 +15,7 @@ node {
     }
     stage('Install Ansible') {
         sh ('''
-            sudo yum install ansible
+            sudo amazon-linux-extras install ansible2
             ansible --version
             if [[ ! $JENKINS_HOME/project ]];
             then
@@ -24,9 +24,6 @@ node {
                 echo 'Failed Setup'
             fi
         ''')
-    }
-    stage('Check Execution') {
-        
     }
     stage('Execute Playbook') {
         dir(work_dir){
