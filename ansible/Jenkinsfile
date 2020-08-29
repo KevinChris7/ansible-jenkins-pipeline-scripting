@@ -29,8 +29,8 @@ node {
         dir(work_dir){
             ansiblePlaybook(
                 playbook: 'ansible/site.yml',
-                become: 'true'
-                credentialsId: 'Ansible_cred'
+                become: 'true',
+                credentialsId: 'Ansible_cred',
                 inventory: 'ansible/hosts-dev'
             )
         }
