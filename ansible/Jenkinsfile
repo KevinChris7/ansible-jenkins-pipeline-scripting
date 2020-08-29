@@ -4,11 +4,14 @@ node {
     def work_dir = '$JENKINS_HOME/project'
 
     stage('Git Checkout') {
-        checkout [
+        checkout (
+            [
             $class: 'GitSCM',
             userRemoteConfigs: [[url: "${CJK_GIT_URL}",credentialsId: "${CREDENTIALS_ID}" ]],
-            branches: [['master']]
-        ]
+            branches: [[name: "${BRANCH_NAME}"]]
+            ]
+        )
+
     }
     stage('Install Ansible') {
         sh ('''
