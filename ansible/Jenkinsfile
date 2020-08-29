@@ -5,7 +5,7 @@ node {
 
     stage('Git Checkout') {
         checkout [
-            $class: 'GitSCM'
+            $class: 'GitSCM',
             userRemoteConfigs: [[url: "${CJK_GIT_URL}",credentialsId: "${CREDENTIALS_ID}" ]],
             branches: [['master']]
         ]
