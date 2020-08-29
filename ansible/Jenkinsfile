@@ -18,13 +18,9 @@ node {
             sudo amazon-linux-extras install ansible2
             ansible --version
             #!/bin/bash
-            if [ ! -d "$JENKINS_HOME/project" ]
-            then
-                echo $PWD
-                mkdir -p $JENKINS_HOME/project
-            else 
-                echo 'Failed Setup'
-            fi
+            [ ! -d "$JENKINS_HOME/project" ]
+            echo $PWD
+            mkdir -p $JENKINS_HOME/project
         ''')
     }
     stage('Execute Playbook') {
