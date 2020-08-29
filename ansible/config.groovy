@@ -25,7 +25,7 @@ pipelineJob(JOB_NAME){
                     }
                     branch("*/master")
                 }
-            scriptPath('trial-project/ansible/Jenkinsfile')
+            scriptPath('/ansible/Jenkinsfile')
             lightweight()
             }
         }
