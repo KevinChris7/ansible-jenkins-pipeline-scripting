@@ -33,8 +33,12 @@ node {
                 credentialsId: 'Ansible_cred',
                 inventory: 'ansible/hosts-dev'
             )
+        }
         catch(e){
             println(e)
+        }
+        finally {
+            echo 'Completed'
         }
     }
 }
