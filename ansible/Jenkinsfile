@@ -33,7 +33,7 @@ node {
                 credentialsId: 'Ansible_cred',
                 inventory: 'ansible/hosts-dev'
             )
-        catch (e){
+        catch(e){
             println(e)
         }
     }
