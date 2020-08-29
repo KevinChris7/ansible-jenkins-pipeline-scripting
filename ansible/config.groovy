@@ -14,6 +14,7 @@ pipelineJob(JOB_NAME){
     parameters{
         stringParam('CJK_GIT_URL',CJK_GIT_URL)
         stringParam('BRANCH_NAME', BRANCH_NAME)
+        stringParam('CREDENTIALS_ID', CREDENTIALS_ID)
     }
     definition{
         cpsScm{
