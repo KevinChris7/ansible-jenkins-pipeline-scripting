@@ -1,0 +1,41 @@
+#!/groovy
+
+node {
+    def work_dir = '$JENKINS_HOME/project'
+
+    stage('Git Checkout') {
+        checkout [
+            $class: 'GitSCM'
+            userRemoteConfigs: [[url: "${CJK_GIT_URL}",credentialsId: "${CREDENTIALS_ID}" ]],
+            branches: [['master']]
+        ]
+    }
+    stage('Install Ansible') {
+        sh ('''
+            sudo yum install ansible
+            ansible --version
+            if [[ ! $JENKINS_HOME/project ]];
+            then
+                mkdir -p $JENKINS_HOME/project
+            else 
+                echo 'Failed Setup'
+            fi
+        ''')
+    }
+    stage('Check Execution') {
+        
+    }
+    stage('Execute Playbook') {
+        dir(work_dir){
+            sh('''
+                ansiblePlaybook(
+                    playbook: 'ansible/site.yml',
+                    become: 'true'
+                    credentialsId: 'Ansible_cred'
+                    inventory: 'ansible/hosts-dev'
+                )
+
+            ''')
+        }
+    }
+}
