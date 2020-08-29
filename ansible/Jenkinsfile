@@ -18,7 +18,7 @@ node {
             sudo amazon-linux-extras install ansible2
             ansible --version
             #!/bin/bash
-            if [ ! -d $JENKINS_HOME/project7];
+            if [ ! -d $JENKINS_HOME/project7]
             then
                 echo $PWD
                 mkdir -p project7
@@ -27,14 +27,12 @@ node {
     }
     stage('Execute Playbook') {
         dir(work_dir){
-            sh('''
-                ansiblePlaybook(
-                    playbook: 'ansible/site.yml',
-                    become: 'true'
-                    credentialsId: 'Ansible_cred'
-                    inventory: 'ansible/hosts-dev'
-                )
-            ''')
+            ansiblePlaybook(
+                playbook: 'ansible/site.yml',
+                become: 'true'
+                credentialsId: 'Ansible_cred'
+                inventory: 'ansible/hosts-dev'
+            )
         }
     }
 }
