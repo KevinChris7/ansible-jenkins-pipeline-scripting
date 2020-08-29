@@ -17,8 +17,6 @@ node {
         sh ('''
             sudo amazon-linux-extras install ansible2
             ansible --version
-            #!/bin/bash
-            [ ! -d "$JENKINS_HOME/project" ]
             echo $PWD
             mkdir -p $JENKINS_HOME/project
         ''')
