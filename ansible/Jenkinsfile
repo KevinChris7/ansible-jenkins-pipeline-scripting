@@ -1,7 +1,7 @@
 #!/groovy
 
 node {
-    def work_dir = '$JENKINS_HOME/project'
+    def work_dir = '$JENKINS_HOME/project7'
 
     stage('Git Checkout') {
         checkout (
@@ -18,10 +18,10 @@ node {
             sudo amazon-linux-extras install ansible2
             ansible --version
             #!/bin/bash
-            if [ ! -d $JENKINS_HOME/project7]
+            if [ ! -d $JENKINS_HOME/project7];
             then
                 echo $PWD
-                mkdir -p project
+                mkdir -p project7
             fi
         ''')
     }

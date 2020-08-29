@@ -1,5 +1,5 @@
 JOB_NAME = 'AnsibleSetup'
-DISPLAY_NM = 'Configuration Project'
+DISPLAY_NM = 'ConfigurationProject'
 CJK_GIT_URL = 'https://github.com/KevinChris7/terraform-ansible-aws.git'
 JOB_REPO = 'https://github.com/KevinChris7/trial-project.git'
 BRANCH_NAME = 'master'
