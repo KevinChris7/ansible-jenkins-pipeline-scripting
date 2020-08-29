@@ -27,12 +27,7 @@ node {
     }
     stage('Execute Playbook') {
         try {
-            ansiblePlaybook(
-                playbook: 'ansible/site.yml',
-                become: 'true',
-                credentialsId: 'Ansible_cred',
-                inventory: 'ansible/hosts-dev'
-            )
+            play_exec()
         }
         catch(e){
             println(e)
@@ -41,4 +36,14 @@ node {
             echo 'Completed'
         }
     }
+}
+
+def play_exec(){
+    println("Playbook Execution starts !!!!!")
+    ansiblePlaybook(
+    playbook: 'ansible/site.yml',
+    become: 'true',
+    credentialsId: 'Ansible_cred',
+    inventory: 'ansible/hosts-dev'
+    )
 }
