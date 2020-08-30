@@ -64,7 +64,7 @@ def ansible_requirments() {
         then
             echo $PWD
             #!/bin/bash
-            sudo yum install python3-pip
+            sudo yum install python3-pip -y
             if [[ "${?}" -eq 0 ]]
             then
                 echo 'Python Pip Installed Successfully'
