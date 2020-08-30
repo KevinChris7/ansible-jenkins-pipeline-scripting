@@ -4,6 +4,7 @@ CJK_GIT_URL = 'https://github.com/KevinChris7/terraform-ansible-aws.git'
 JOB_REPO = 'https://github.com/KevinChris7/trial-project.git'
 BRANCH_NAME = 'master'
 CREDENTIALS_ID = 'github'
+ANSIBLE_CRED = 'ansible'
 
 pipelineJob(JOB_NAME){
     displayName(DISPLAY_NM)
@@ -15,6 +16,8 @@ pipelineJob(JOB_NAME){
         stringParam('CJK_GIT_URL',CJK_GIT_URL)
         stringParam('BRANCH_NAME', BRANCH_NAME)
         stringParam('CREDENTIALS_ID', CREDENTIALS_ID)
+        stringParam('ANSIBLE_CRED', ANSIBLE_CRED)
+        choiceParam('INVENTORY', ['static', 'dynamic'])
     }
     definition{
         cpsScm{
