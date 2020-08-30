@@ -35,10 +35,11 @@ node {
             // Applying Dynamic Inventory for Ansible Configuration
             else if(inventory == "dynamic"){
                 sh('''
-                    pip install -r ansible/requirements.txt
+                    #!/bin/bash
+                    pip3 install -r ansible/requirements.txt
                     if [[ "${?}" -eq 0 ]];
                     then
-                        dynamic_inv_setup()
+                        dynamic_inv_setup
                     else 
                         echo 'Inventory Setup Failed'
                         exit 1
