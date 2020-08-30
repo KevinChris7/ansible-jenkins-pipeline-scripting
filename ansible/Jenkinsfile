@@ -10,7 +10,7 @@ node {
             [
             $class: 'GitSCM',
             userRemoteConfigs: [[url: "${CJK_GIT_URL}",credentialsId: "${CREDENTIALS_ID}" ]],
-            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${work_dir}"]]
+            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${work_dir}"]],
             branches: [[name: "${BRANCH_NAME}"]]
             ]
         )
