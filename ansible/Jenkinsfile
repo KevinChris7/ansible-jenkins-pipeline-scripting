@@ -1,7 +1,7 @@
 #!/groovy
 
 node {
-    //def work_dir = '$JENKINS_HOME/project7'
+    def work_dir = "ansible_configs"
     def inventory = "${INVENTORY}"
     def cjk_mail = "kevin@maildrop.cc"
 
@@ -10,6 +10,7 @@ node {
             [
             $class: 'GitSCM',
             userRemoteConfigs: [[url: "${CJK_GIT_URL}",credentialsId: "${CREDENTIALS_ID}" ]],
+            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${work_dir}"]]
             branches: [[name: "${BRANCH_NAME}"]]
             ]
         )
@@ -27,35 +28,37 @@ node {
     }
     stage('Execute Playbook') {
         try {
-            input id: 'ApproveAnsible', message: 'Ready to apply Config', ok:'proceed'
-            proceed = true
-            if (proceed) {
-                // Applying Static Inventory for Ansible Configuration
-                if(inventory == "static"){
-                    println("Ansible Executes with static Inventory...")
-                    play_exec()
+            dir(work_dir){
+                input id: 'ApproveAnsible', message: 'Ready to apply Config', ok:'proceed'
+                proceed = true
+                if (proceed) {
+                    // Applying Static Inventory for Ansible Configuration
+                    if(inventory == "static"){
+                        println("Ansible Executes with static Inventory...")
+                        play_exec()
+                    }
+                    // Applying Dynamic Inventory for Ansible Configuration
+                    else if(inventory == "dynamic"){
+                        sh('''
+                            #!/bin/bash
+                            sudo pip3 install -r ansible/requirements.txt
+                            if [[ "${?}" -eq 0 ]];
+                            then
+                                export ANSIBLE_HOSTS=/ansible/inventory/ec2.py
+                                export EC2_INI_PATH=/ansible/inventory/ec2.ini 
+                                export ANSIBLE_CONFIG=ansible.cfg
+                            else 
+                                echo 'Inventory Setup Failed'
+                                exit 1
+                            fi
+                        ''')
+                        println("Ansible Executes with Dynamic Inventory")
+                        play_exec_dynamic()
+                    }
                 }
-                // Applying Dynamic Inventory for Ansible Configuration
-                else if(inventory == "dynamic"){
-                    sh('''
-                        #!/bin/bash
-                        sudo pip3 install -r ansible/requirements.txt
-                        if [[ "${?}" -eq 0 ]];
-                        then
-                            export ANSIBLE_HOSTS=/ansible/inventory/ec2.py
-                            export EC2_INI_PATH=/ansible/inventory/ec2.ini 
-                            export ANSIBLE_CONFIG=ansible.cfg
-                        else 
-                            echo 'Inventory Setup Failed'
-                            exit 1
-                        fi
-                    ''')
-                    println("Ansible Executes with Dynamic Inventory")
-                    play_exec_dynamic()
-                }
-            }
-            else
-                println("Approval Failed")
+                else
+                    println("Approval Failed") 
+            } 
         }
         catch(e){
             println(e)
