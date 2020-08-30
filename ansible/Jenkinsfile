@@ -26,28 +26,32 @@ node {
     }
     stage('Execute Playbook') {
         try {
-
-            // Applying Static Inventory for Ansible Configuration
-            if(inventory == "static"){
-                println("Ansible Executes with static Inventory...")
-                play_exec()
+            input id: 'ApproveAnsible' message: 'Ready to apply Config' ok:'proceed'
+            if (proceed==true) {
+                // Applying Static Inventory for Ansible Configuration
+                if(inventory == "static"){
+                    println("Ansible Executes with static Inventory...")
+                    play_exec()
+                }
+                // Applying Dynamic Inventory for Ansible Configuration
+                else if(inventory == "dynamic"){
+                    sh('''
+                        #!/bin/bash
+                        sudo pip3 install -r ansible/requirements.txt
+                        if [[ "${?}" -eq 0 ]];
+                        then
+                            dynamic_inv_setup
+                        else 
+                            echo 'Inventory Setup Failed'
+                            exit 1
+                        fi
+                    ''')
+                    println("Ansible Executes with Dynamic Inventory")
+                    play_exec_dynamic()
+                }
             }
-            // Applying Dynamic Inventory for Ansible Configuration
-            else if(inventory == "dynamic"){
-                sh('''
-                    #!/bin/bash
-                    sudo pip3 install -r ansible/requirements.txt
-                    if [[ "${?}" -eq 0 ]];
-                    then
-                        dynamic_inv_setup
-                    else 
-                        echo 'Inventory Setup Failed'
-                        exit 1
-                    fi
-                ''')
-                println("Ansible Executes with Dynamic Inventory")
-                play_exec_dynamic()
-            }
+            else
+                println("Approval Failed")
         }
         catch(e){
             println(e)
