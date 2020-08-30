@@ -1,7 +1,8 @@
 #!/groovy
 
 node {
-    def work_dir = '$JENKINS_HOME/project7'
+    //def work_dir = '$JENKINS_HOME/project7'
+    def inventory = "${INVENTORY}"
 
     stage('Git Checkout') {
         checkout (
@@ -14,36 +15,105 @@ node {
 
     }
     stage('Install Ansible') {
-        sh ('''
-            sudo amazon-linux-extras install ansible2
-            ansible --version
-            #!/bin/bash
-            if [ ! -d $JENKINS_HOME/project7]
-            then
-                echo $PWD
-                mkdir -p project7
-            fi
-        ''')
-    }
-    stage('Execute Playbook') {
         try {
-            play_exec()
+            
+            println("Installing Ansible....")
+            ansible_requirments()
         }
         catch(e){
             println(e)
         }
+    }
+    stage('Execute Playbook') {
+        try {
+
+            // Applying Static Inventory for Ansible Configuration
+            if(inventory == "static"){
+                println("Ansible Executes with static Inventory...")
+                play_exec()
+            }
+            // Applying Dynamic Inventory for Ansible Configuration
+            else if(inventory == "dynamic"){
+                sh('''
+                    pip3 install -r ansible/requirements.txt
+                    if [[ "${?}" -eq 0 ]];
+                    then
+                        dynamic_inv_setup
+                    else 
+                        echo 'Inventory Setup Failed'
+                        exit 1
+                    fi
+                ''')
+                println("Ansible Executes with Dynamic Inventory")
+                play_exec_dynamic()
+            }
+        }
+        catch(e){
+            println(e)
+            currentBuild.result = 'Failed'
+        }
         finally {
-            echo 'Completed'
+            deleteDir()
         }
     }
 }
 
+def ansible_requirments() {
+    sh('''
+        if [[ ! -d $JENKINS_HOME/project-tools ]];
+        then
+            echo $PWD
+            #!/bin/bash
+            sudo yum install python3-pip
+            if [[ "${?}" -eq 0 ]]
+            then
+                echo 'Python Pip Installed Successfully'
+            else
+                echo 'Python Pip Installation Failed'
+            fi
+            sudo amazon-linux-extras install ansible2
+            ansible --version
+            if [[ "${?}" -eq 0 ]];
+            then
+                echo 'Ansible Installation Completed'
+            else
+                echo 'Ansible Installation Failed'
+                exit 1
+            mkdir -p $JENKINS_HOME/project-tools
+        fi
+    ''')    
+}
+
+// Playbook Function Definition with static Inventory
 def play_exec(){
+
     println("Playbook Execution starts !!!!!")
+
     ansiblePlaybook(
     playbook: 'ansible/site.yml',
     become: 'true',
-    credentialsId: 'Ansible_cred',
+    credentialsId: "${ANSIBLE_CRED}",
     inventory: 'ansible/hosts-dev'
     )
+}
+
+// Playbook Function Definition with Dynamic Inventory
+def play_exec_dynamic(){
+
+    println("Playbook Execution starts !!!!!")
+
+    ansiblePlaybook(
+    playbook: 'ansible/site.yml',
+    become: 'true',
+    credentialsId: "${ANSIBLE_CRED}",
+    dynamicInventory : true
+    )
+}
+
+def dynamic_inv_setup(){
+    sh('''
+    export ANSIBLE_HOSTS=/ansible/inventory/ec2.py
+    export EC2_INI_PATH=/ansible/inventory/ev2.ini 
+    export ANSIBLE_CONFIG=ansible.cfg
+    ''')
 }
