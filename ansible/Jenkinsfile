@@ -36,7 +36,7 @@ node {
             else if(inventory == "dynamic"){
                 sh('''
                     #!/bin/bash
-                    pip3 install -r ansible/requirements.txt
+                    sudo pip3 install -r ansible/requirements.txt
                     if [[ "${?}" -eq 0 ]];
                     then
                         dynamic_inv_setup
