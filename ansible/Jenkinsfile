@@ -35,7 +35,7 @@ node {
             // Applying Dynamic Inventory for Ansible Configuration
             else if(inventory == "dynamic"){
                 sh('''
-                    pip3 install -r ansible/requirements.txt
+                    pip install -r ansible/requirements.txt
                     if [[ "${?}" -eq 0 ]];
                     then
                         dynamic_inv_setup
@@ -80,6 +80,7 @@ def ansible_requirments() {
                 echo 'Ansible Installation Failed'
                 exit 1
             mkdir -p $JENKINS_HOME/project-tools
+            fi
         fi
     ''')    
 }
