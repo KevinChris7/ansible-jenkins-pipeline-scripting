@@ -41,6 +41,9 @@ node {
                         sudo pip3 install -r ansible/requirements.txt
                         if [[ "${?}" -eq 0 ]];
                         then
+                            export ANSIBLE_HOSTS=/ansible/inventory/ec2.py
+                            export EC2_INI_PATH=/ansible/inventory/ev2.ini 
+                            export ANSIBLE_CONFIG=ansible.cfg
                             dynamic_inv_setup
                         else 
                             echo 'Inventory Setup Failed'
