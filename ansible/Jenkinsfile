@@ -44,7 +44,6 @@ node {
                             export ANSIBLE_HOSTS=/ansible/inventory/ec2.py
                             export EC2_INI_PATH=/ansible/inventory/ev2.ini 
                             export ANSIBLE_CONFIG=ansible.cfg
-                            dynamic_inv_setup
                         else 
                             echo 'Inventory Setup Failed'
                             exit 1
@@ -120,11 +119,11 @@ def play_exec_dynamic(){
     )
 }
 
-def dynamic_inv_setup(){
-    sh('''
-    echo 'Exporting the Environment Variables'
-    export ANSIBLE_HOSTS=/ansible/inventory/ec2.py
-    export EC2_INI_PATH=/ansible/inventory/ev2.ini 
-    export ANSIBLE_CONFIG=ansible.cfg
-    ''')
-}
+// def dynamic_inv_setup(){
+//     sh('''
+//     echo 'Exporting the Environment Variables'
+//     export ANSIBLE_HOSTS=/ansible/inventory/ec2.py
+//     export EC2_INI_PATH=/ansible/inventory/ev2.ini 
+//     export ANSIBLE_CONFIG=ansible.cfg
+//     ''')
+// }
