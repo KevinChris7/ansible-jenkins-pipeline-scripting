@@ -27,7 +27,8 @@ node {
     stage('Execute Playbook') {
         try {
             input id: 'ApproveAnsible', message: 'Ready to apply Config', ok:'proceed'
-            if (proceed==true) {
+            proceed = true
+            if (proceed) {
                 // Applying Static Inventory for Ansible Configuration
                 if(inventory == "static"){
                     println("Ansible Executes with static Inventory...")
